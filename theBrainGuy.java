@@ -1,49 +1,60 @@
-/*
-/ TTTTTTT  H    H  EEEEEE         BBBB     RRRR         A      IIIII  N    N         GGGGG   U     U   Y   Y 
-/    T     H    H  E              B   B    R   R       A A       I    NN   N        G        U     U    Y Y
-/    T     HHHHHH  EEEEE          BBBB     RRRR       AAAAA      I    N N  N        G  GGG   U     U     Y
-/    T     H    H  E              B   B    R   R     A     A     I    N  N N        G    G   U     U     Y
-/    T     H    H  EEEEEE         BBBB     R    R   A       A  IIIII  N   NN         GGGG     UUUUU      Y
-*/
-//central thing. Handles all the stuff. 
+ 
+//central thing. Handles all the stuff.                                                                                                      
 public class TheBrainGuy(){
-    public enum Mode { 
-	DRAW, KEYBOARD, PLAY
-    }
-    //DRAW MODE VARS:
+    public enum Mode {
+        DRAW, KEYBOARD, PLAY
+	    }
+    public enum Shape{
+	CIRCLE, BRUSH, SQUARE, STAR
+	    }
+    //GENERAL 
+    public Mode currentmode;
+    public void changeMode(Mode mode);
+ 
+    //DRAW MODE VARS:                                                                                                                        
     private Instrument currentInstrument;
-    
-    //DRAW MODE FUNCTIONS
-    //adjust instruments. Called by GUI, call Instrument. 
+ 
+    //DRAW MODE FUNCTIONS                                                                                                                    
+    //adjust instruments. Called by GUI, call Instrument.                                                                                    
     public void adjustPitch(float pitch);
-    public void adjustPitch(float volume);
-    public void adjustPitch(float reverb);
-    public void adjustPitch(float delay);
-
-    //adjust drawing tool. Called by GUI, calls 
-    public void adjustColor( /*TODO: args */);
-    /*TODO: other adjusts*/
-    
-    //From Gui to Instrument.drawing, 
-    public void Draw(Color color, float x, float y);
-    
-
-    //getters for GUI
+    public void adjustVolume(float volume);
+    public void adjustReverb(float reverb);
+    public void adjustDelay(float delay);
+    //adjust drawing tool. Called by GUI, calls                                                                                              
+    public void adjustColor( int r, int b, int g);
+    public void selectShape(Shape s);
+    public void selectSize(float size);
+ 
+    //From Gui to Instrument.drawing,                                                                                                        
+    public void Draw( int r, int b, int g, float x, float y);
+ 
+ 
+    //getters for GUI                                                                                                                        
     public float getPitch();
-    /*TODO the rest of these*/
-    //gets the drawing from the current instrument;
-    public Drawing getDrawing();
+    public float getVolume();
+    public float getReverb();  
+    public float getDelay();
     
-
-    //KEYBOARD MODE VARS 
-
-    //KEYBOARD MODE FUNCTIONS
-
-    //PLAY MODE VARS
+    //gets the drawing from the current instrument;                                                                                          
+    public PImage getDrawing();
+ 
+ 
+    //KEYBOARD MODE VARS       
+                                                                                                                 
+ 
+    //KEYBOARD MODE FUNCTIONS                                                                                                                
+    //need Instrument, interact with GUI
+    public void assignKey(Instrument instrument, char key); 
+    public void assignFileToKey(typeTBD file, char key);
+    public void playKey(char key);
+    public void overrideKey(Instrument newInstrument, char key);
+ 
+    //load keyboard functions
+    public void loadKeyboard(String name); //will call assign key functions
+    public void saveKeyboard(void); //it probably will be void bc the key bindings will be saved to a Java InputMap
+ 
+    //PLAY MODE VARS                                                                                                                         
     boolean isRecording;
-
-    //PLAY MODE FUNCTIONS
-
-    //plays a note, called by GUI KeyPress, calls Fractal and Sound
-    public void Note (int keycode);
+    //PLAY MODE FUNCTIONS                                                                                                                                                                           
+    
 }
