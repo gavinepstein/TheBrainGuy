@@ -45,7 +45,9 @@ public class TheBrainGuy(){
     //KEYBOARD MODE FUNCTIONS                                                                                                                
     //need Instrument, interact with GUI
     public void assignKey(Instrument instrument, char key); 
-    public void assignFileToKey(typeTBD file, char key);
+    //to do this we should just make the file an Instrument, and then pass into other method
+    public void assignFileToKey(typeTBD file, char key); 
+    public Instrument convertFileToInstrument(typeTBD file);
     public void playKey(char key);
     public void overrideKey(Instrument newInstrument, char key);
  

@@ -15,7 +15,7 @@ protected class Instrument{
     //
     private DrawingToPatch();
 
-    //called by brainguy, interacts with Max
-    PlayNote (float pitchshift=0);
+    //called by brainguy, interacts with Max; also used by SoundAction class
+    public void playNote (float pitchshift=0);
 
 }
