@@ -163,8 +163,12 @@ public class Attempt3 extends JFrame{
 
 		topPanel.add(LTButtons);
 		
+		//add color chooser to bottom panel 
+		ColorChooser cc = new ColorChooser();
+		bottomLeft.add(cc);
+		
 		//add processing display
-		centerPanel.add(VisualDisplay.getDrawing(200, 200));
+		centerPanel.add(VisualStuff.getDrawing(200, 200));
 		
 		
 		// add in all of the bottom panel specifics: box with labels and three panels
@@ -181,8 +185,3 @@ public class Attempt3 extends JFrame{
 		this.setVisible(true); 
 	}
 }
-
-
-
-
-
