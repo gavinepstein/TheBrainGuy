@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Event;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -18,23 +19,19 @@ import processing.awt.PSurfaceAWT.SmoothCanvas;
 import processing.core.PApplet;
 import processing.core.PSurface;
 
-public class VisualStuff extends PApplet   {
+public class VisualStuff extends PApplet {
 	public static final int WIDTH = 1000;
 	public static final int HEIGHT = 300;
 	public static int Mouse_X;
 	public static int Mouse_Y;
 	public static boolean MouseDown;
-	public static final BufferedImage img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-	
-	
+	public static final BufferedImage img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);	
+		
 	public static JPanel panel = new JPanel();
 	//mouse listener
 	
-			
-			
-			
 	public static final JLabel picLabel = new JLabel();
-	float t=0;
+	
 	//size and framerate
 	public void settings(){
 		size(WIDTH, HEIGHT);
@@ -53,28 +50,27 @@ public class VisualStuff extends PApplet   {
 		
 		
 		//TODO put in processing code for nice thing here :) :) 
-		t+=(float)1/10;
 		colorMode(HSB, 100);
-		fill(color(t%100,100,100));
-		stroke(color(t%100,100,100));
-		
+
+		// color is based off of the ColorChooser's values (finally)
+		fill(ColorChooser.tcc.getColor().getRGB());
+		stroke(ColorChooser.tcc.getColor().getRGB());
+				
 		if (MouseDown == true) { 
 			stroke(255);
-			ellipse(Mouse_X, Mouse_Y, 8, 8); 
+			ellipse(Mouse_X, Mouse_Y, 15, 15); 
 		}
 		
-		
-		
+
 		loadPixels();
-		//put pixels form the image into a public array
 		
+		//put pixels from the image into a public array
 		img.setRGB(0, 0, WIDTH,HEIGHT, pixels, 0, WIDTH);
 		picLabel.setIcon(new ImageIcon(img));
 		
 	}
 	
-	
-	
+
 	
 	public static JPanel getDrawing(int width, int height){
 		//Add mouse interaction

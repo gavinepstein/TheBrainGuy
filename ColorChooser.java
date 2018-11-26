@@ -8,7 +8,8 @@ import java.util.List;
 public class ColorChooser extends JPanel
                               implements ChangeListener {
  
-    protected JColorChooser tcc;
+	// changed to static from protected, this may be a mistake
+    static JColorChooser tcc;
     
     public ColorChooser() {
         super(new BorderLayout());
