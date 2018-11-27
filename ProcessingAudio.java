@@ -20,9 +20,10 @@ import java.awt.Color;
 	import processing.core.PSurface;
 	import processing.sound.*;
 public class ProcessingAudio  extends PApplet {
-		public static final int WIDTH = 1000;
-		public static final int HEIGHT = 300;
-		public static int Mouse_X;
+		public static final int NumParams = 7;
+		
+		public boolean KeyPressed;
+		public  char Key;
 		public static int Mouse_Y;
 		public static boolean MouseDown;
 		
@@ -146,6 +147,7 @@ public sounds s23;
 public sounds s24;
 public sounds s25;
 public sounds s26;
+public sounds s27;
 public float[] e1;
 public float[] e2;
 public float[] e3;
@@ -172,6 +174,7 @@ public float[] e23;
 public float[] e24;
 public float[] e25;
 public float[] e26;
+public float[] e27;
 
 
 public void mapkey(char yek, sounds ss, float[] enveloop){
@@ -279,6 +282,10 @@ public void mapkey(char yek, sounds ss, float[] enveloop){
       s26 = ss;
     e26 = enveloop;
     }
+    if (yek == ' ' ) {
+        s27 = ss;
+      e27 = enveloop;
+      }
 }
 
 
@@ -299,137 +306,146 @@ public void mapkey(char yek, sounds ss, float[] enveloop){
 			// Map vertical mouse position to volume.
 			  // Instead of setting the volume for every oscillator individually, we can just
 			  // control the overall output volume of the whole Sound library.
-			  
-			  if (keyPressed) {
-			    if (key == 'q' || key == 'Q') {
+			  if (KeyPressed){
+				  
+				 System.out.println(">" + Key+"<");
+			  } 
+			  if (KeyPressed) {
+			    if (Key == 'q' || Key == 'Q') {
 			      playSound(s1,e1);
 			    }
 			  }
-			  if (keyPressed) {
-			    if (key == 'w' || key == 'W') {
+			  if (KeyPressed) {
+			    if (Key == 'w' || Key == 'W') {
 			      playSound(s2,e2);
 			    }
 			  }
-			  if (keyPressed) {
-			    if (key == 'e' || key == 'E') {
+			  if (KeyPressed) {
+			    if (Key == 'e' || Key == 'E') {
 			      playSound(s3,e3);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'r' || key == 'R') {
+			  if (KeyPressed) {
+			    if (Key == 'r' || Key == 'R') {
 			      playSound(s4,e4);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 't' || key == 'T') {
+			  if (KeyPressed) {
+			    if (Key == 't' || Key == 'T') {
 			      playSound(s5,e5);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'y' || key == 'Y') {
+			  if (KeyPressed) {
+			    if (Key == 'y' || Key == 'Y') {
 			      playSound(s6,e6);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'u' || key == 'U') {
+			  if (KeyPressed) {
+			    if (Key == 'u' || Key == 'U') {
 			      playSound(s7,e7);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'i' || key == 'I') {
+			  if (KeyPressed) {
+			    if (Key == 'i' || Key == 'I') {
 			      playSound(s8,e8);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'o' || key == 'O') {
+			  if (KeyPressed) {
+			    if (Key == 'o' || Key == 'O') {
 			      playSound(s9,e9);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'p' || key == 'P') {
+			  if (KeyPressed) {
+			    if (Key == 'p' || Key == 'P') {
 			      playSound(s10,e10);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'a' || key == 'A') {
+			  if (KeyPressed) {
+			    if (Key == 'a' || Key == 'A') {
 			      playSound(s11,e11);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 's' || key == 'S') {
+			  if (KeyPressed) {
+			    if (Key == 's' || Key == 'S') {
 			      playSound(s12,e12);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'd' || key == 'D') {
+			  if (KeyPressed) {
+			    if (Key == 'd' || Key == 'D') {
 			      playSound(s13,e13);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'f' || key == 'F') {
+			  if (KeyPressed) {
+			    if (Key == 'f' || Key == 'F') {
 			      playSound(s14,e14);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'g' || key == 'G') {
+			  if (KeyPressed) {
+			    if (Key == 'g' || Key == 'G') {
 			      playSound(s15,e15);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'h' || key == 'H') {
+			  if (KeyPressed) {
+			    if (Key == 'h' || Key == 'H') {
 			      playSound(s16,e16);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'j' || key == 'J') {
+			  if (KeyPressed) {
+			    if (Key == 'j' || Key == 'J') {
 			      playSound(s17,e17);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'k' || key == 'K') {
+			  if (KeyPressed) {
+			    if (Key == 'k' || Key == 'K') {
 			      playSound(s18,e18);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'l' || key == 'L') {
+			  if (KeyPressed) {
+			    if (Key == 'l' || Key == 'L') {
 			      playSound(s19,e19);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'z' || key == 'Z') {
+			  if (KeyPressed) {
+			    if (Key == 'z' || Key == 'Z') {
 			      playSound(s20,e20);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'x' || key == 'X') {
+			  if (KeyPressed) {
+			    if (Key == 'x' || Key == 'X') {
 			      playSound(s21,e21);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'c' || key == 'C') {
+			  if (KeyPressed) {
+			    if (Key == 'c' || Key == 'C') {
 			      playSound(s22,e22);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'v' || key == 'V') {
+			  if (KeyPressed) {
+			    if (Key == 'v' || Key == 'V') {
 			      playSound(s23,e23);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'b' || key == 'B') {
+			  if (KeyPressed) {
+			    if (Key == 'b' || Key == 'B') {
 			      playSound(s24,e24);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'n' || key == 'N') {
+			  if (KeyPressed) {
+			    if (Key == 'n' || Key == 'N') {
 			      playSound(s25,e25);
 			    }
 			  } 
-			  if (keyPressed) {
-			    if (key == 'm' || key == 'M') {
+			  if (KeyPressed) {
+			    if (Key == 'm' || Key == 'M') {
 			      playSound(s26,e26);
 			    }
 			  } 
+			  if (KeyPressed) {
+				    if (Key == ' ' ) {
+				    	
+				      playSound(s27,e27);
+				    }
+			} 
 			  
 			}
 			
@@ -437,9 +453,10 @@ public void mapkey(char yek, sounds ss, float[] enveloop){
 			
 
 			
-		}
 		
-		public static final int NumParams = 7;
+		
+		
+		
 		/** Makes parameters based on an image
 		*all parameters are floats in [0,1]
 		*parameters
