@@ -1,14 +1,32 @@
-package brainGuyRunner;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.CompoundBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.text.Keymap;
 
-import processing.core.PSurface;
+import processing.core.PApplet;
   
 
 public class Attempt3 extends JFrame{
@@ -25,6 +43,8 @@ public class Attempt3 extends JFrame{
 	JButton playButton = new JButton("Play");
 	JButton pauseButton = new JButton("Pause");
 	
+	//handles all the audio
+	ProcessingAudio audioPlayer = new ProcessingAudio();
 	// set up title text at the top of the screen
 	JLabel screenTop = new JLabel("Create Instrument Mode");
 	
@@ -226,11 +246,63 @@ public class Attempt3 extends JFrame{
 		
 		//add processing display
 		centerPanel = VisualStuff.getDrawing(400, 200);
+		JPanel display = VisualStuff.getDrawing(200, 200);
+		centerPanel.add(display);
+		
+		//Play button, just for testing?
+		String[] args = {"ProcessingAudio "};
+		PApplet.runSketch(args, audioPlayer);
+		
+		playButton.addChangeListener(new ChangeListener() {
+			@Override
+		    public void stateChanged(ChangeEvent e) { 
+				JButton source= (JButton)e.getSource();
+				if (source.getModel().isPressed()){
+		    	float[] params = audioPlayer.makeParams(VisualStuff.img);//sneaky public member access, robably not great. 
+		    	String wavetype;
+		    	if  (params[3] < 1.0/5){
+		    		wavetype = "sine";
+		    	}else if (params[3] < 2.0/5){
+		    		wavetype = "triangle";
+		    	}else if (params[3] < 3.0/5){
+		    		wavetype = "square";
+		    	}else if (params[3] < 4.0/5){
+		    		wavetype = "pulse";
+		    	}else{
+		    		wavetype = "saw";
+		    	}
+		    	//jeez idk man
+		    	float freq = 220f *(float) Math.pow(2f, ((int)(params[5]*12 +params[6]*24 ))/24);
+		    	float [] env= new float[]{
+		    		params[0],
+		    		params[6]/4,
+		    		params[2]*3,
+		    		params[1],
+		    	};
+		    	//put the values in the things.
+		    	ProcessingAudio.sounds ss = audioPlayer.createsounds(wavetype, (int)freq, 1);
+		    	audioPlayer.mapkey(' ', ss, env);
+		    	
+		    	System.out.println("playing");
+		    	
+		    	
+		    	audioPlayer.KeyPressed=true;
+		    	audioPlayer.Key = ' ' ;
+				} else{
+					audioPlayer.KeyPressed=false;
+				}
+		    	
+			}
+		    
+			
+		});
+		
 		
 		/** Bottom panel specifics & main panel additions 
 		 * Section includes: Adding the box of labels, the east/west/center panels on the bottom panel that contain 
 		 * adjusters and selectors, and adding the top, center, and bottom panels to the main panels 
 		 */
+		
 		
 		// add in all of the bottom panel specifics: box with labels and three panels
 		bottomPanel.add(box2, BorderLayout.NORTH);
