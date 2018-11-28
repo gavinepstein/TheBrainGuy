@@ -1,5 +1,8 @@
-import java.awt.*;
+package brainGuyRunner;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.*;
 
 import javax.swing.*;
@@ -10,6 +13,11 @@ import processing.core.PSurface;
 
 public class Attempt3 extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public static boolean clearNow = false;
 	// set up buttons for the top of the screen 
 	JButton saveButton = new JButton("Save"); 
 	JButton clearButton = new JButton("Clear");
@@ -25,6 +33,19 @@ public class Attempt3 extends JFrame{
 	JLabel adjusterLabel = new JLabel("Adjuster Tools");
 	JLabel instrumentSelectLabel = new JLabel("Instrument Select");
 	
+	//panelz
+	JPanel mainPanel = new JPanel();
+	// create top panel for box 
+	JPanel topPanel = new JPanel();
+	// create the center panel to hold the image 
+	JPanel centerPanel = new JPanel();
+	// create the bottom panel to hold the box 
+	JPanel bottomPanel = new JPanel(); 
+	
+	JPanel bottomLeft = new JPanel();
+	JPanel bottomCenter = new JPanel();
+	JPanel bottomRight = new JPanel();
+	
 	// create default list & scroller for the instrument select scroller
 	DefaultListModel instrumentSelectList = new DefaultListModel();
 	JScrollPane instrumentScroller;
@@ -33,9 +54,6 @@ public class Attempt3 extends JFrame{
 	// create dimensions for reference
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
-	public static void main(String[] args) {
-		new Attempt3();
-	}
 	
 	public Attempt3() {
 		// set up the main window size, location, close type, title
@@ -43,26 +61,22 @@ public class Attempt3 extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("AV: Instrument Mode");
-		
-		
+		//Button stuff
+		clearButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clear();
+				}
+		});
 		/** 
 		 * Create three body panels: Main back panel, top panel for labels, mid label for 
 		 *  drawing screen, bottom label for adjustment screens 
 		 */
 		
 		// create the first body panel
-		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		// create top panel for box 
-		JPanel topPanel = new JPanel();
 		topPanel.setBackground(new Color(230,230,250));
-		// create the center panel to hold the image 
-		JPanel centerPanel = new JPanel();
-		// temporarily set the center panel as a color so it's visible; this will hold the drawing screen
-		centerPanel.setBackground(new Color (0, 0, 0));
-		// create the bottom panel to hold the box 
-		JPanel bottomPanel = new JPanel(); 
-		
+
 		// temporarily set bottom panel color 
 		bottomPanel.setLayout(new BorderLayout());
 		bottomPanel.setBackground(new Color (184, 168, 221));
@@ -73,7 +87,6 @@ public class Attempt3 extends JFrame{
 		 */
 		
 		// create bottom left panel and set an etched border
-		JPanel bottomLeft = new JPanel();
 		bottomLeft.setBackground(new Color(230,230,250));
 		bottomLeft.setBorder( new CompoundBorder(
 				BorderFactory.createMatteBorder(10,10,10,10, new Color(75, 0, 130)),
@@ -81,14 +94,12 @@ public class Attempt3 extends JFrame{
 				
 		
 		// create bottom center panel and set an etched border
-		JPanel bottomCenter = new JPanel();
 		bottomCenter.setBackground(new Color(230,230,250));
 		bottomCenter.setBorder( new CompoundBorder(
 					BorderFactory.createMatteBorder(10,10,10,10, new Color(75, 0, 130)),
 					BorderFactory.createEtchedBorder()));
 					
 		// create bottom right panel and set an etched border
-		JPanel bottomRight = new JPanel();
 		bottomRight.setBackground(new Color(230,230,250));
 		bottomRight.setBorder( new CompoundBorder(
 				BorderFactory.createMatteBorder(10,10,10,10, new Color(75, 0, 130)),
@@ -116,6 +127,7 @@ public class Attempt3 extends JFrame{
 		// add clear button to the top box
 		LTButtons.add(clearButton);
 		LTButtons.add(Box.createHorizontalStrut(280));
+
 		
 		/** Create Instrument Mode  
 		 * Section includes: Adding the instrument mode label to the top bar's box 
@@ -213,7 +225,7 @@ public class Attempt3 extends JFrame{
 		 */
 		
 		//add processing display
-		centerPanel.add(VisualStuff.getDrawing(200, 200));
+		centerPanel = VisualStuff.getDrawing(400, 200);
 		
 		/** Bottom panel specifics & main panel additions 
 		 * Section includes: Adding the box of labels, the east/west/center panels on the bottom panel that contain 
@@ -232,5 +244,14 @@ public class Attempt3 extends JFrame{
 		
 		//topButtons.add(topButtonsNest, BorderLayout.NORTH);
 		this.setVisible(true); 
+	}
+
+	private void clear() {
+		System.out.println("clear!");
+		clearNow = true;
+	}
+	
+	public static void main(String[] args) {
+		new Attempt3();
 	}
 }

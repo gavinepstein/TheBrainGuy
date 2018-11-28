@@ -1,23 +1,14 @@
-import java.awt.Color;
-import java.awt.Event;
-import java.awt.Graphics2D;
+package brainGuyRunner;
+
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.util.concurrent.TimeUnit;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import processing.awt.PSurfaceAWT;
-import processing.awt.PSurfaceAWT.SmoothCanvas;
 import processing.core.PApplet;
-import processing.core.PSurface;
 
 public class VisualStuff extends PApplet {
 	public static final int WIDTH = 1000;
@@ -57,10 +48,15 @@ public class VisualStuff extends PApplet {
 		stroke(ColorChooser.tcc.getColor().getRGB());
 				
 		if (MouseDown == true) { 
-			stroke(255);
+			//stroke(255);
 			ellipse(Mouse_X, Mouse_Y, 15, 15); 
 		}
 		
+		if (Attempt3.clearNow == true) {
+			System.out.println("ping");
+			background(0, 0, 0);
+			Attempt3.clearNow = false;
+		}
 
 		loadPixels();
 		
@@ -120,6 +116,8 @@ public class VisualStuff extends PApplet {
 		return panel;
 	}
 	//TODO mouse listener
+	
+	
 	
 
 }
