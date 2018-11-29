@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.event.ChangeEvent;
@@ -42,7 +43,8 @@ public class Attempt3 extends JFrame{
 	JButton goToKeyboardButton = new JButton("Go to Keyboard");
 	JButton playButton = new JButton("Play");
 	JButton pauseButton = new JButton("Pause");
-	
+	JSlider pitchSlider;//TODO make these sliders
+	JSlider volumeSlider;//TODO make these sliders
 	//handles all the audio
 	ProcessingAudio audioPlayer = new ProcessingAudio();
 	// set up title text at the top of the screen
@@ -245,7 +247,7 @@ public class Attempt3 extends JFrame{
 		 */
 		
 		//add processing display
-		centerPanel = VisualStuff.getDrawing(400, 200);
+		
 		JPanel display = VisualStuff.getDrawing(200, 200);
 		centerPanel.add(display);
 		
@@ -283,8 +285,7 @@ public class Attempt3 extends JFrame{
 		    	ProcessingAudio.sounds ss = audioPlayer.createsounds(wavetype, (int)freq, 1);
 		    	audioPlayer.mapkey(' ', ss, env);
 		    	
-		    	System.out.println("playing");
-		    	
+		    	System.out.println();
 		    	
 		    	audioPlayer.KeyPressed=true;
 		    	audioPlayer.Key = ' ' ;

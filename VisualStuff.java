@@ -1,4 +1,4 @@
-package brainGuyRunner;
+
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -65,7 +65,10 @@ public class VisualStuff extends PApplet {
 		picLabel.setIcon(new ImageIcon(img));
 		
 	}
-	
+	public void clear(){
+		fill(0,0,0);
+		rect (0,0, WIDTH, HEIGHT);
+	}
 
 	
 	public static JPanel getDrawing(int width, int height){
