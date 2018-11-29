@@ -53,7 +53,7 @@ public class ProcessingAudio  extends PApplet {
 		public Env env1;
 
 public sounds createsounds(String name, int freq, float amp){
-  sounds sound1;
+  //sounds sound1;
   if (name.equals("sine")){
     //sounds1.type = sine;
     sounds sounds1 = new sounds("sine",freq,amp);
@@ -86,6 +86,8 @@ public sounds createsounds(String name, int freq, float amp){
 
 //play a sound
 private void playSound(sounds note, float[] enveloop){
+	
+	
 	  env1  = new Env(this); 
 	  if (note.gettype().equals("sine")){
 	    SinOsc sound = new SinOsc(this);
@@ -306,146 +308,121 @@ public void mapkey(char yek, sounds ss, float[] enveloop){
 			// Map vertical mouse position to volume.
 			  // Instead of setting the volume for every oscillator individually, we can just
 			  // control the overall output volume of the whole Sound library.
-			  if (KeyPressed){
-				  
-				 System.out.println(">" + Key+"<");
-			  } 
+			   
 			  if (KeyPressed) {
+				 KeyPressed = false;
 			    if (Key == 'q' || Key == 'Q') {
 			      playSound(s1,e1);
 			    }
-			  }
-			  if (KeyPressed) {
+			  
+			  
 			    if (Key == 'w' || Key == 'W') {
 			      playSound(s2,e2);
 			    }
-			  }
-			  if (KeyPressed) {
+			  
+			  
 			    if (Key == 'e' || Key == 'E') {
 			      playSound(s3,e3);
 			    }
-			  } 
-			  if (KeyPressed) {
+			  
 			    if (Key == 'r' || Key == 'R') {
 			      playSound(s4,e4);
 			    }
-			  } 
-			  if (KeyPressed) {
+			
 			    if (Key == 't' || Key == 'T') {
 			      playSound(s5,e5);
 			    }
-			  } 
-			  if (KeyPressed) {
+			 
 			    if (Key == 'y' || Key == 'Y') {
 			      playSound(s6,e6);
 			    }
-			  } 
-			  if (KeyPressed) {
+			  
 			    if (Key == 'u' || Key == 'U') {
 			      playSound(s7,e7);
 			    }
-			  } 
-			  if (KeyPressed) {
+			 
 			    if (Key == 'i' || Key == 'I') {
 			      playSound(s8,e8);
 			    }
-			  } 
-			  if (KeyPressed) {
+			
 			    if (Key == 'o' || Key == 'O') {
 			      playSound(s9,e9);
 			    }
-			  } 
-			  if (KeyPressed) {
+			 
 			    if (Key == 'p' || Key == 'P') {
 			      playSound(s10,e10);
 			    }
-			  } 
-			  if (KeyPressed) {
+			 
 			    if (Key == 'a' || Key == 'A') {
 			      playSound(s11,e11);
 			    }
-			  } 
-			  if (KeyPressed) {
+			
 			    if (Key == 's' || Key == 'S') {
 			      playSound(s12,e12);
 			    }
-			  } 
-			  if (KeyPressed) {
+			 
 			    if (Key == 'd' || Key == 'D') {
 			      playSound(s13,e13);
 			    }
-			  } 
-			  if (KeyPressed) {
+			
 			    if (Key == 'f' || Key == 'F') {
 			      playSound(s14,e14);
 			    }
-			  } 
-			  if (KeyPressed) {
+			 
 			    if (Key == 'g' || Key == 'G') {
 			      playSound(s15,e15);
 			    }
-			  } 
-			  if (KeyPressed) {
+			  
 			    if (Key == 'h' || Key == 'H') {
 			      playSound(s16,e16);
 			    }
-			  } 
-			  if (KeyPressed) {
+			 
 			    if (Key == 'j' || Key == 'J') {
 			      playSound(s17,e17);
 			    }
-			  } 
-			  if (KeyPressed) {
+			 
 			    if (Key == 'k' || Key == 'K') {
 			      playSound(s18,e18);
 			    }
-			  } 
-			  if (KeyPressed) {
+			  
 			    if (Key == 'l' || Key == 'L') {
 			      playSound(s19,e19);
 			    }
-			  } 
-			  if (KeyPressed) {
+			  
 			    if (Key == 'z' || Key == 'Z') {
 			      playSound(s20,e20);
 			    }
-			  } 
-			  if (KeyPressed) {
+			 
 			    if (Key == 'x' || Key == 'X') {
 			      playSound(s21,e21);
 			    }
-			  } 
-			  if (KeyPressed) {
+			 
 			    if (Key == 'c' || Key == 'C') {
 			      playSound(s22,e22);
 			    }
-			  } 
-			  if (KeyPressed) {
+			 
 			    if (Key == 'v' || Key == 'V') {
 			      playSound(s23,e23);
 			    }
-			  } 
-			  if (KeyPressed) {
+			
 			    if (Key == 'b' || Key == 'B') {
 			      playSound(s24,e24);
 			    }
-			  } 
-			  if (KeyPressed) {
+			 
 			    if (Key == 'n' || Key == 'N') {
 			      playSound(s25,e25);
 			    }
-			  } 
-			  if (KeyPressed) {
+			 
 			    if (Key == 'm' || Key == 'M') {
 			      playSound(s26,e26);
 			    }
-			  } 
-			  if (KeyPressed) {
-				    if (Key == ' ' ) {
+			 
+				if (Key == ' ' ) {
 				    	
 				      playSound(s27,e27);
 				    }
-			} 
+			  
+			  } 
 			  
 			}
 			

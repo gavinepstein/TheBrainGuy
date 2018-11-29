@@ -256,8 +256,11 @@ public class Attempt3 extends JFrame{
 		PApplet.runSketch(args, audioPlayer);
 		
 		playButton.addChangeListener(new ChangeListener() {
+			
 			@Override
 		    public void stateChanged(ChangeEvent e) { 
+				
+				
 				JButton source= (JButton)e.getSource();
 				if (source.getModel().isPressed()){
 		    	float[] params = audioPlayer.makeParams(VisualStuff.img);//sneaky public member access, robably not great. 
@@ -283,12 +286,12 @@ public class Attempt3 extends JFrame{
 		    	};
 		    	//put the values in the things.
 		    	ProcessingAudio.sounds ss = audioPlayer.createsounds(wavetype, (int)freq, 1);
-		    	audioPlayer.mapkey(' ', ss, env);
+		    	audioPlayer.mapkey('a', ss, env);
 		    	
-		    	System.out.println();
+		    	
 		    	
 		    	audioPlayer.KeyPressed=true;
-		    	audioPlayer.Key = ' ' ;
+		    	audioPlayer.Key = 'a' ;
 				} else{
 					audioPlayer.KeyPressed=false;
 				}
