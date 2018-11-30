@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.*;
+import java.util.stream.Stream;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,11 +11,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -25,6 +31,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.Keymap;
 
 import processing.core.PApplet;
@@ -38,7 +45,7 @@ public class Attempt3 extends JFrame{
 	private static final long serialVersionUID = 1L;
 	public static boolean clearNow = false;
 	// set up buttons for the top of the screen 
-	JButton saveButton = new JButton("Save"); 
+	JButton saveButton = new JButton("Export"); 
 	JButton clearButton = new JButton("Clear");
 	JButton goToKeyboardButton = new JButton("Go to Keyboard");
 	JButton playButton = new JButton("Play");
@@ -89,6 +96,13 @@ public class Attempt3 extends JFrame{
 				clear();
 				}
 		});
+		
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveFile();
+				}
+		});
+		
 		/** 
 		 * Create three body panels: Main back panel, top panel for labels, mid label for 
 		 *  drawing screen, bottom label for adjustment screens 
@@ -164,16 +178,21 @@ public class Attempt3 extends JFrame{
 		 * Section includes: Creating spacing between the right-hand top buttons
 		 */
 		
-		// assign text to the right hand buttons
+		
+		
+		
 		LTButtons.add(playButton);
 		LTButtons.add(Box.createHorizontalStrut(4));
 		
-		LTButtons.add(pauseButton);
+		//TODO removed temporarily for friday's in class test
+		//TButtons.add(pauseButton);
 		LTButtons.add(Box.createHorizontalStrut(4));
 		
 		LTButtons.add(Box.createHorizontalGlue());		
 		LTButtons.add(Box.createHorizontalStrut(4));
-		LTButtons.add(goToKeyboardButton);
+		//LTButtons.add(goToKeyboardButton);
+		
+		
 		
 		/** Bottom panel label bar  
 		 * Section includes: Adding drawing tools, adjuster tools, and instrument select labels to the purple mid-bar
@@ -325,6 +344,20 @@ public class Attempt3 extends JFrame{
 	private void clear() {
 		System.out.println("clear!");
 		clearNow = true;
+	}
+	
+	private void saveFile(){
+		JFileChooser fileChooser = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(".wav", "WAVE");
+		fileChooser.setFileFilter(filter);
+		if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+		  File file = fileChooser.getSelectedFile();
+		  
+		  AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
+		  audioPlayer.saveFile(file);
+		  ;
+		}
+		
 	}
 	
 	public static void main(String[] args) {
