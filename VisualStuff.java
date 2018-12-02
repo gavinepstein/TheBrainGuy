@@ -3,12 +3,14 @@
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class VisualStuff extends PApplet {
 	public static final int WIDTH = 1000;
@@ -21,6 +23,8 @@ public class VisualStuff extends PApplet {
 	public static JPanel panel = new JPanel();
 	public static int lastX;
 	public static int lastY;
+	private static boolean loaded = false;
+	private static String filename;
 	//mouse listener
 	
 	public static final JLabel picLabel = new JLabel();
@@ -40,7 +44,20 @@ public class VisualStuff extends PApplet {
 	}
 	//same as Processing draw
 	public void draw(){
-		
+		//loading image
+		if (loaded){
+			try{
+			PImage image = loadImage(filename);
+			
+			image(image,0,0,WIDTH * image.height/image.width,HEIGHT);
+			} 
+			catch (NullPointerException e){
+				System.out.println("can't use that file");
+			}
+			
+			
+			loaded = false;
+		}
 		
 		//TODO put in processing code for nice thing here :) :) 
 		colorMode(HSB, 100);
@@ -52,13 +69,15 @@ public class VisualStuff extends PApplet {
 		if (MouseDown == true) { 
 			//stroke(255);
 			strokeWeight(0);
-			ellipse(Mouse_X, Mouse_Y, 15, 15); 
+			
 			
 			if (lastX!=-1){
 				
 				strokeWeight(15);
 				line(lastX, lastY, Mouse_X, Mouse_Y);
 				
+			}else{
+			//	ellipse(Mouse_X, Mouse_Y, 15, 15); 
 			}
 			lastX = Mouse_X;
 			lastY=Mouse_Y;
@@ -130,6 +149,13 @@ public class VisualStuff extends PApplet {
 		panel.add(picLabel);
 		panel.setSize(width, height);
 		return panel;
+	}
+	
+	public static void loadimage(String Filename){
+		loaded = true;
+		filename = Filename;
+			
+		
 	}
 	//TODO mouse listener
 	

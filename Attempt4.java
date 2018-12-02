@@ -12,7 +12,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -48,12 +50,14 @@ public class Attempt4 extends JFrame{
 	private static final long serialVersionUID = 1L;
 	public static boolean clearNow = false;
 	private static boolean  isplaying = false;
-	// set up buttons for the top of the screen 
-	JButton saveButton = new JButton("Export"); 
+	// set up buttons for the top of the screen
+	JButton exportButton = new JButton("Export");
+	JButton saveButton = new JButton("Save"); 
 	JButton clearButton = new JButton("Clear");
 	JButton goToKeyboardButton = new JButton("Go to Keyboard");
-	JButton playButton = new JButton("  Play   ");
+	JButton playButton = new JButton("Play");
 	JButton pauseButton = new JButton("Pause");
+	JButton loadButton = new JButton ("Load Image");
 	//number of seconds in the playback
 	private static int timelength = 5;
 	//handles all the audio
@@ -104,7 +108,19 @@ public class Attempt4 extends JFrame{
 
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				saveImage();
+			}
+		});
+		
+		exportButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				exportSound();
+			}
+		});
+		
+		loadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loadImage();
 			}
 		});
 
@@ -190,12 +206,12 @@ public class Attempt4 extends JFrame{
 		LTButtons.add(Box.createHorizontalStrut(4));
 
 
-		LTButtons.add(pauseButton);
+		LTButtons.add(loadButton);
 		LTButtons.add(Box.createHorizontalStrut(4));
 
 		LTButtons.add(Box.createHorizontalGlue());		
 		LTButtons.add(Box.createHorizontalStrut(4));
-		LTButtons.add(goToKeyboardButton);
+		LTButtons.add(exportButton);
 
 
 
@@ -334,15 +350,65 @@ public class Attempt4 extends JFrame{
 		if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
 
-			AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
+			if (!file.getName().endsWith(".wav" )){
+				file =new File(file.getAbsolutePath()+".wav");
+			}
 			audioPlayer.saveFile(file);
 			;
 		}
 
 	}
 	private void saveImage(){
-		//TODO
+		JFileChooser fileChooser = new JFileChooser();
+		FileNameExtensionFilter filterJPG = new FileNameExtensionFilter("JPEG", "jpg");
+		FileNameExtensionFilter filterPNG= new FileNameExtensionFilter("PNG", "png");
+		
+		fileChooser.addChoosableFileFilter(filterJPG);
+		fileChooser.addChoosableFileFilter(filterPNG);
+		if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+			File file = fileChooser.getSelectedFile();
+			
+			if (fileChooser.getTypeDescription(file).equals(filterPNG)){
+				if (!file.getName().endsWith(".png" )){
+					file =new File(file.getAbsolutePath()+".png");
+				}
+				
+				try {
+					ImageIO.write(VisualStuff.img, "png", file);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else{
+				if (!file.getName().endsWith(".jpg")){
+					file =new File(file.getAbsolutePath()+".jpg");
+				}
+				
+
+				try {
+					ImageIO.write(VisualStuff.img, "jpg", file);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			
+			
+		}
 	}
+	private void loadImage(){
+		JFileChooser fileChooser = new JFileChooser();
+		FileNameExtensionFilter filterImage = new FileNameExtensionFilter("Images", "jpg", "bmp", "tif", "gif", "png");
+		
+		fileChooser.addChoosableFileFilter(filterImage);
+
+		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			
+		VisualStuff.loadimage(fileChooser.getSelectedFile().getAbsolutePath());
+		}
+	}
+	
 
 	public static void main(String[] args) {
 		new Attempt4();
