@@ -1,5 +1,3 @@
 # TheBrainGuy
-# Hi this is Helen
-Testing
-
-Testing test test
+# Upload Java Files not Class Files
+k thx bye
