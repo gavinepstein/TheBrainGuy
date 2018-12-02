@@ -31,14 +31,12 @@ public class VisualStuff extends PApplet {
 	public static final BufferedImage img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);	
 			
 	public static JPanel panel = new JPanel();
-
 	public static int lastX;
 	public static int lastY;
 	private static boolean loaded = false;
 	private static String filename;
 	public static int sizeValue = 15;
 	public static boolean isSquare = false; 
-
 	//mouse listener
 	
 	public static final JLabel picLabel = new JLabel();
