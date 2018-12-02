@@ -18,7 +18,7 @@ import javax.sound.sampled.SourceDataLine;
 public class SoundModule {
 	private Sound currentsound;
 	private static final int sliceWidth = 5;
-	private static final int fftsize = 10;
+	private static final int fftsize = 5;
 	private static final int pixelsamplesize = 2;
 
 
@@ -195,7 +195,7 @@ public class SoundModule {
 				//basefreq+= (12*hsv[0]);
 				basefreq -= 10;
 				//overtones
-				fft[0] = 1/tau* 110f *(float) Math.pow(2f, (float)((int)basefreq)/12f);
+				fft[0] = 1/tau* 220f *(float) Math.pow(2f, (float)((int)basefreq)/12f);
 				int fi  = 0;
 				for (fi =1; fi<(int)(fft.length); fi++){
 					fft[fi] = fft[fi-1] * hsv[0];
@@ -220,7 +220,7 @@ public class SoundModule {
 							
 							
 							//LFO
-							newsamples[i] = LPFalpha*amp*hsv[1]*sin(fft[j] *i)+ (1-LPFalpha)*newsamples[i-1]  ;// *rand.nextFloat();
+							newsamples[i] = LPFalpha*amp*hsv[1]*sin(fft[j] *i)*rand.nextFloat()+ (1-LPFalpha)*newsamples[i-1]  ;// ;
 
 
 						}
@@ -249,8 +249,11 @@ public class SoundModule {
 		}
 		float ampmult  = 30f / maxamp;
 		byte[] bytes = new byte[samples.length];
-		for (int i  = 0; i< samples.length; i++){
-			bytes[i] = (byte) (samples[i] * ampmult);
+		bytes[0] = (byte)(samples[0] * ampmult);
+		for (int i  = 1; i< samples.length; i++){
+			//Another low pass filter
+			//float LPFalpha = .999f;
+			bytes[i] = (byte)(samples[i] * ampmult)  ;
 		}
 
 		this.currentsound = new Sound(bytes);
@@ -262,7 +265,7 @@ public class SoundModule {
 		if( currentsound!=null){
 			currentsound.play();
 		}
-		System.out.println("played");
+		
 
 	}
 	public void saveFile(File file){
