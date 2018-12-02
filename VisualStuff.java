@@ -17,8 +17,10 @@ public class VisualStuff extends PApplet {
 	public static int Mouse_Y;
 	public static boolean MouseDown;
 	public static final BufferedImage img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);	
-		
+	public static boolean clearNow = false;
 	public static JPanel panel = new JPanel();
+	public static int lastX;
+	public static int lastY;
 	//mouse listener
 	
 	public static final JLabel picLabel = new JLabel();
@@ -49,13 +51,27 @@ public class VisualStuff extends PApplet {
 				
 		if (MouseDown == true) { 
 			//stroke(255);
+			strokeWeight(0);
 			ellipse(Mouse_X, Mouse_Y, 15, 15); 
+			
+			if (lastX!=-1){
+				
+				strokeWeight(15);
+				line(lastX, lastY, Mouse_X, Mouse_Y);
+				
+			}
+			lastX = Mouse_X;
+			lastY=Mouse_Y;
+		} else{
+			lastX=-1;
+			lastY=-1;
+		
 		}
 		
-		if (Attempt3.clearNow == true) {
+		if (clearNow == true) {
 			System.out.println("ping");
 			background(0, 0, 0);
-			Attempt3.clearNow = false;
+			clearNow = false;
 		}
 
 		loadPixels();
@@ -65,10 +81,7 @@ public class VisualStuff extends PApplet {
 		picLabel.setIcon(new ImageIcon(img));
 		
 	}
-	public void clear(){
-		fill(0,0,0);
-		rect (0,0, WIDTH, HEIGHT);
-	}
+	
 
 	
 	public static JPanel getDrawing(int width, int height){
