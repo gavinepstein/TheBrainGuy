@@ -25,6 +25,8 @@ public class VisualStuff extends PApplet {
 	public static int lastY;
 	private static boolean loaded = false;
 	private static String filename;
+	public static int sizeValue = 15;
+	public static boolean isSquare = false; 
 	//mouse listener
 	
 	public static final JLabel picLabel = new JLabel();
@@ -70,17 +72,18 @@ public class VisualStuff extends PApplet {
 			//stroke(255);
 			strokeWeight(0);
 			
-			
+			if (!isSquare){
 			if (lastX!=-1){
 				
-				strokeWeight(15);
+				strokeWeight(sizeValue);
 				line(lastX, lastY, Mouse_X, Mouse_Y);
 				
-			}else{
-			//	ellipse(Mouse_X, Mouse_Y, 15, 15); 
 			}
 			lastX = Mouse_X;
 			lastY=Mouse_Y;
+			}else {
+				rect(Mouse_X, Mouse_Y, sizeValue, sizeValue );
+			}
 		} else{
 			lastX=-1;
 			lastY=-1;

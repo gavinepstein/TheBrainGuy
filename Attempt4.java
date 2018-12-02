@@ -39,7 +39,7 @@ import javax.swing.text.Keymap;
 import processing.core.PApplet;
 
 
-public class Attempt4 extends JFrame{
+public class Attempt4 extends JFrame implements ChangeListener{
 
 
 
@@ -58,6 +58,9 @@ public class Attempt4 extends JFrame{
 	JButton playButton = new JButton("Play");
 	JButton pauseButton = new JButton("Pause");
 	JButton loadButton = new JButton ("Load Image");
+	//shape buttons
+	JButton squareToggle = new JButton("Square"); 
+	JButton lineToggle = new JButton("Line"); 
 	//number of seconds in the playback
 	private static int timelength = 5;
 	//handles all the audio
@@ -69,7 +72,7 @@ public class Attempt4 extends JFrame{
 	// set up title text for the lower areas
 	JLabel drawingToolsLabel = new JLabel("Drawing Tools");
 	JLabel adjusterLabel = new JLabel("Adjuster Tools");
-	JLabel instrumentSelectLabel = new JLabel("Instrument Select");
+	
 
 	//panelz
 	JPanel mainPanel = new JPanel();
@@ -82,12 +85,9 @@ public class Attempt4 extends JFrame{
 
 	JPanel bottomLeft = new JPanel();
 	JPanel bottomCenter = new JPanel();
-	JPanel bottomRight = new JPanel();
+	
 
-	// create default list & scroller for the instrument select scroller
-	DefaultListModel instrumentSelectList = new DefaultListModel();
-	JScrollPane instrumentScroller;
-	JList instrumentsList;
+	
 
 	// create dimensions for reference
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -123,7 +123,71 @@ public class Attempt4 extends JFrame{
 				loadImage();
 			}
 		});
+		squareToggle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				makeSquare();
+			}
+		});
+		lineToggle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				makeLine();
+			}
+		});
 
+		
+		// sliders baybeeeee
+		 		// first slider: Drawing tool size adjuster 
+		 		final int SIZE_MIN = 1;
+		 		final int SIZE_MAX = 100;
+		 		
+		 		JSlider drawSize = new JSlider(JSlider.HORIZONTAL,
+		 	           SIZE_MIN, SIZE_MAX, 15);
+		 		drawSize.addChangeListener(this);
+		 		
+		 		drawSize.setMajorTickSpacing(24);
+		 		drawSize.setMinorTickSpacing(14);
+		 		drawSize.setPaintTicks(true);
+		 		drawSize.setPaintLabels(true);
+		 		
+		 		// second slider: Time adjuster
+		 		final int Time_MIN = 1;
+		 		final int Time_MAX = 60;
+		 		
+		 		JSlider TimeSlider = new JSlider(JSlider.HORIZONTAL,
+		 	           Time_MIN, Time_MAX, 5);
+		 		TimeSlider.addChangeListener( new ChangeListener(){
+
+					@Override
+					public void stateChanged(ChangeEvent e) {
+						timelength = ((JSlider) e.getSource()).getValue();
+					
+					}
+		 			
+		 			
+		 		}
+
+		 		);
+		 		
+		 		TimeSlider.setMajorTickSpacing(24);
+		 		TimeSlider.setMinorTickSpacing(14);
+		 		TimeSlider.setPaintTicks(true);
+		 		TimeSlider.setPaintLabels(true);
+		 		
+		 		// third slider: volume adjuster
+		 		final int VOL_MIN = 1;
+		 		final int VOL_MAX = 100;
+		 		
+		 		JSlider volumeSlider = new JSlider(JSlider.HORIZONTAL,
+		 	           VOL_MIN, VOL_MAX, 50);
+		 		volumeSlider.addChangeListener(this);
+		 		
+		 		volumeSlider.setMajorTickSpacing(24);
+		 		volumeSlider.setMinorTickSpacing(14);
+		 		volumeSlider.setPaintTicks(true);
+		 		volumeSlider.setPaintLabels(true);
+		
+		
+		
 		/** 
 		 * Create three body panels: Main back panel, top panel for labels, mid label for 
 		 *  drawing screen, bottom label for adjustment screens 
@@ -156,11 +220,7 @@ public class Attempt4 extends JFrame{
 				BorderFactory.createMatteBorder(10,10,10,10, new Color(75, 0, 130)),
 				BorderFactory.createEtchedBorder()));
 
-		// create bottom right panel and set an etched border
-		bottomRight.setBackground(new Color(230,230,250));
-		bottomRight.setBorder( new CompoundBorder(
-				BorderFactory.createMatteBorder(10,10,10,10, new Color(75, 0, 130)),
-				BorderFactory.createEtchedBorder()));
+		
 
 		/** LTButtons (top of screen button options)  
 		 * Section includes: Creating the box to hold the top buttons and labels  
@@ -225,38 +285,10 @@ public class Attempt4 extends JFrame{
 		box2.add(Box.createHorizontalStrut(300));
 		box2.add(adjusterLabel);
 		box2.add(Box.createHorizontalGlue());
-		box2.add(instrumentSelectLabel);
+		
 		box2.add(Box.createHorizontalStrut((int)screenSize.getWidth()/70));
 
-		/** Instrument list 
-		 * Section includes: Creating a list to hold all of the instruments, which will be displayed in the scroller 
-		 */
 
-		// create instrument scroller panel 
-		String[] instruments = {"Instrument 1", "Instrument 2", "Instrument 3", "Instrument 4", "Instrument 5"
-				, "Instrument 6", "Instrument 7"};
-		for(String instrument: instruments) {
-			instrumentSelectList.addElement(instrument);
-		}
-
-		/** Instrument Scroller and selection box: Stored in bottom right panel, East 
-		 * Section includes: Parameters for instrument spacing, row count, and scroll types 
-		 */
-
-		// create the list of instruments to go inside of the instrument scroller. set row count and width/height parameters.
-		instrumentsList = new JList(instrumentSelectList);
-		instrumentsList.setVisibleRowCount(4);
-		instrumentsList.setFixedCellHeight(60);
-		instrumentsList.setFixedCellWidth(150);
-		instrumentsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-		// stick the list into the scrolling box 
-		instrumentScroller = new JScrollPane(instrumentsList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-
-		// add the scrolling box to the main panel, bottom right 
-		bottomRight.add(instrumentScroller, BorderLayout.EAST);
 
 		/** LTButtons (top of screen button options)  
 		 * Section includes: Adding the existing LTButtons box, which contains the buttons themselves, to the top 
@@ -277,11 +309,19 @@ public class Attempt4 extends JFrame{
 		 * DRAWING TOOLS BOX THAT ALREADY CONTAINS THE COLOR CHOOSER) 
 		 * Section includes: Adding adjuster buttons from separate class
 		 */
-		JButton squareToggle = new JButton("Square"); 
+		
 		bottomCenter.add(squareToggle);
-		JButton lineToggle = new JButton("Line"); 
+		
 		bottomCenter.add(lineToggle);
-
+		//sliders
+		JLabel sizeSliderLabel = new JLabel("Pen Size"); 
+		JLabel timeSliderLabel = new JLabel("Sound Length"); 
+		bottomCenter.add(sizeSliderLabel);
+		bottomCenter.add(drawSize);
+		bottomCenter.add(timeSliderLabel);
+		bottomCenter.add(TimeSlider);
+		
+		
 		/** Processing display 
 		 * Section includes: Adding processing display from VisualStuff to the center panel for use
 		 */
@@ -327,7 +367,7 @@ public class Attempt4 extends JFrame{
 
 		// add in all of the bottom panel specifics: box with labels and three panels
 		bottomPanel.add(box2, BorderLayout.NORTH);
-		bottomPanel.add(bottomRight, BorderLayout.EAST);
+		
 		bottomPanel.add(bottomLeft, BorderLayout.WEST);
 		bottomPanel.add(bottomCenter, BorderLayout.CENTER);
 		mainPanel.add(topPanel, BorderLayout.NORTH);
@@ -337,6 +377,16 @@ public class Attempt4 extends JFrame{
 
 		//topButtons.add(topButtonsNest, BorderLayout.NORTH);
 		this.setVisible(true); 
+	}
+
+	protected void makeLine() {
+		VisualStuff.isSquare = false;
+		
+	}
+
+	protected void makeSquare() {
+		VisualStuff.isSquare = true;
+		
 	}
 
 	private void clear() {
@@ -408,6 +458,15 @@ public class Attempt4 extends JFrame{
 		VisualStuff.loadimage(fileChooser.getSelectedFile().getAbsolutePath());
 		}
 	}
+	
+	
+	public void stateChanged(ChangeEvent e) {
+ 	    JSlider drawSource = (JSlider)e.getSource();
+ 	    int newSize = (int)drawSource.getValue();
+ 	    if (!drawSource.getValueIsAdjusting()) {
+ 	       VisualStuff.sizeValue = newSize; 
+ 	    }
+ 	}
 	
 
 	public static void main(String[] args) {

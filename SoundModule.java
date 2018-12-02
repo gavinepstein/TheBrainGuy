@@ -231,9 +231,9 @@ public class SoundModule {
 
 					}
 					
-					
+					//noise
 					for (int i = s*samplesPerPixel ; i< Math.min((s+pixelsamplesize)*samplesPerPixel , samples.length) ;i++){
-						samples[i]+=(rand.nextFloat()*2-1)*(1-hsv[1]);
+						//samples[i]+=(rand.nextFloat()*2-1)*(1-hsv[1]);
 					
 					}
 					
