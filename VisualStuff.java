@@ -31,6 +31,15 @@ public class VisualStuff extends PApplet {
 	public static final BufferedImage img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);	
 			
 	public static JPanel panel = new JPanel();
+<<<<<<< HEAD
+	public static int lastX;
+	public static int lastY;
+	private static boolean loaded = false;
+	private static String filename;
+	public static int sizeValue = 15;
+	public static boolean isSquare = false; 
+=======
+>>>>>>> 6e5bd2d2318a5e95057733404b45548ed9818954
 	//mouse listener
 	
 	public static final JLabel picLabel = new JLabel();
@@ -64,8 +73,30 @@ public class VisualStuff extends PApplet {
 		stroke(ColorChooser.tcc.getColor().getRGB());
 				
 		if (MouseDown == true) { 
+<<<<<<< HEAD
+			//stroke(255);
+			strokeWeight(0);
+			
+			if (!isSquare){
+			if (lastX!=-1){
+				
+				strokeWeight(sizeValue);
+				line(lastX, lastY, Mouse_X, Mouse_Y);
+				
+			}
+			lastX = Mouse_X;
+			lastY=Mouse_Y;
+			}else {
+				rect(Mouse_X, Mouse_Y, sizeValue, sizeValue );
+			}
+		} else{
+			lastX=-1;
+			lastY=-1;
+		
+=======
 			stroke(255);
 			ellipse(Mouse_X, Mouse_Y, sizeValue, sizeValue); 
+>>>>>>> 6e5bd2d2318a5e95057733404b45548ed9818954
 		}
 		
 
