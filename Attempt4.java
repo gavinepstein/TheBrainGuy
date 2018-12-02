@@ -64,8 +64,10 @@ public class Attempt4 extends JFrame implements ChangeListener{
 	JButton lineToggle = new JButton("Line"); 
 	//number of seconds in the playback
 	private static int timelength = 5;
+	//has the image been changed?
+	private static boolean hasBeenEdited =true;
+	
 	//handles all the audio
-
 	SoundModule audioPlayer = new SoundModule();
 	// set up title text at the top of the screen
 	JLabel screenTop = new JLabel("Create Instrument Mode");
@@ -333,25 +335,25 @@ public class Attempt4 extends JFrame implements ChangeListener{
 		centerPanel.add(display);
 
 		//Play button
-		playButton.setMultiClickThreshhold(5400);
+		playButton.setMultiClickThreshhold(500);
 
 		playButton.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				
 				JButton source= (JButton)e.getSource();
 				if (source.getModel().isPressed() &&!isplaying){
+					//new thread for playing sound
 					Thread worker = new Thread() {
 				          public void run() {
-				            // Something that takes a long time . . . in real life,
-				            // this
-				            // might be a DB query, remote method invocation, etc.
+				            
 				            runSound();
 
-				            // Report the result using invokeLater().
+				            // reset the button
 				            SwingUtilities.invokeLater(new Runnable() {
 					              public void run() {
 					                playButton.setText("Play");
 					                playButton.setEnabled(true);
+					                isplaying = false;
 					              }
 							});
 				              
@@ -426,7 +428,7 @@ public class Attempt4 extends JFrame implements ChangeListener{
 		if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
 			
-			if (fileChooser.getTypeDescription(file).equals(filterPNG)){
+			if (fileChooser.getFileFilter().equals(filterPNG) || file.getName().endsWith(".png" )){
 				if (!file.getName().endsWith(".png" )){
 					file =new File(file.getAbsolutePath()+".png");
 				}
@@ -486,7 +488,7 @@ public class Attempt4 extends JFrame implements ChangeListener{
 		if (!isplaying){
 			isplaying = true;
 			
-			
+			if (hasBeenEdited){
 			SwingUtilities.invokeLater(new Runnable() {
 	              public void run() {
 	                playButton.setText("Analyzing");
@@ -495,7 +497,7 @@ public class Attempt4 extends JFrame implements ChangeListener{
 			});
 
 			audioPlayer.interpretImage(VisualStuff.img, timelength);
-			
+			}
 			SwingUtilities.invokeLater(new Runnable() {
 	              public void run() {
 	                playButton.setText("Playing");
@@ -504,7 +506,7 @@ public class Attempt4 extends JFrame implements ChangeListener{
 			});
 			
 			audioPlayer.playSound();
-			playButton.setText("Play");
+			
 			
 			//isplaying=false;
 		}
