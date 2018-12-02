@@ -1,16 +1,26 @@
-
-
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Event;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.util.concurrent.TimeUnit;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import processing.awt.PSurfaceAWT;
+import processing.awt.PSurfaceAWT.SmoothCanvas;
 import processing.core.PApplet;
-import processing.core.PImage;
+import processing.core.PSurface;
 
 public class VisualStuff extends PApplet {
 	public static final int WIDTH = 1000;
@@ -19,17 +29,23 @@ public class VisualStuff extends PApplet {
 	public static int Mouse_Y;
 	public static boolean MouseDown;
 	public static final BufferedImage img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);	
-	public static boolean clearNow = false;
+			
 	public static JPanel panel = new JPanel();
+
 	public static int lastX;
 	public static int lastY;
 	private static boolean loaded = false;
 	private static String filename;
 	public static int sizeValue = 15;
 	public static boolean isSquare = false; 
+
 	//mouse listener
 	
 	public static final JLabel picLabel = new JLabel();
+	
+	// delete if moot 
+	public static boolean isCleared = false; 
+	
 	
 	//size and framerate
 	public void settings(){
@@ -46,21 +62,7 @@ public class VisualStuff extends PApplet {
 	}
 	//same as Processing draw
 	public void draw(){
-		//loading image
-		if (loaded){
-			try{
-			PImage image = loadImage(filename);
-			
-			image(image,0,0,WIDTH * image.height/image.width,HEIGHT);
-			} 
-			catch (NullPointerException e){
-				System.out.println("can't use that file");
-			}
-			
-			
-			loaded = false;
-		}
-		
+				
 		//TODO put in processing code for nice thing here :) :) 
 		colorMode(HSB, 100);
 
@@ -69,6 +71,7 @@ public class VisualStuff extends PApplet {
 		stroke(ColorChooser.tcc.getColor().getRGB());
 				
 		if (MouseDown == true) { 
+
 			//stroke(255);
 			strokeWeight(0);
 			
@@ -90,25 +93,29 @@ public class VisualStuff extends PApplet {
 		
 		}
 		
-		if (clearNow == true) {
-			System.out.println("ping");
-			background(0, 0, 0);
-			clearNow = false;
-		}
 
 		loadPixels();
 		
 		//put pixels from the image into a public array
 		img.setRGB(0, 0, WIDTH,HEIGHT, pixels, 0, WIDTH);
+		
+		int[] pixelClear = new int[width*height];
+		for (int i=0; i<width*height; i++) {
+			pixelClear[i] = 0;
+		}
+		
+		// clear attempt
+		if (isCleared == true) {
+			img.setRGB(0, 0, width, height, pixelClear, 0, WIDTH);
+			isCleared = false; 
+		}
 		picLabel.setIcon(new ImageIcon(img));
 		
 	}
 	
-
-	
 	public static JPanel getDrawing(int width, int height){
 		//Add mouse interaction
-		panel.addMouseMotionListener( new MouseMotionListener(){
+		panel.addMouseMotionListener(new MouseMotionListener(){
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
@@ -128,41 +135,17 @@ public class VisualStuff extends PApplet {
 		});
 		
 		//Make Processing sketch
+
 		VisualStuff sketch = new VisualStuff();
 		String[] args = {"VisualDisplay "};
 		PApplet.runSketch(args, sketch);
-		
-		/*
-		//get the PSurface from the sketch
-		PSurface sketchSurface = sketch.initSurface();
-		//initialize the PSurface
-		sketchSurface.setSize(width, height);
-        
-		//get the SmoothCanvas that holds the PSurface
-		PSurfaceAWT awtSurface = (PSurfaceAWT)sketch.surface;
-		PSurfaceAWT.SmoothCanvas smoothCanvas = (PSurfaceAWT.SmoothCanvas)awtSurface.getNative();
-		//SmoothCanvas can be used as a Component
-		panel.add(smoothCanvas);
-		//return Frame
-		 * 
-		 */
-		//
 		
 		
 		panel.add(picLabel);
 		panel.setSize(width, height);
 		return panel;
 	}
-	
-	public static void loadimage(String Filename){
-		loaded = true;
-		filename = Filename;
-			
-		
-	}
 	//TODO mouse listener
-	
-	
 	
 
 }

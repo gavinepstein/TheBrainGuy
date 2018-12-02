@@ -1,43 +1,17 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.text.*;
-import java.util.stream.Stream;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.File;
-
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.CompoundBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.Keymap;
+import java.awt.event.*;
+import javax.swing.border.*;
+import javax.swing.*;
+import javax.swing.event.*;
 
 import processing.core.PApplet;
   
 
-public class Attempt3 extends JFrame{
+public class Attempt3 extends JFrame implements ChangeListener {
 	
 	/**
 	 * 
@@ -45,13 +19,12 @@ public class Attempt3 extends JFrame{
 	private static final long serialVersionUID = 1L;
 	public static boolean clearNow = false;
 	// set up buttons for the top of the screen 
-	JButton saveButton = new JButton("Export"); 
+	JButton saveButton = new JButton("Save"); 
 	JButton clearButton = new JButton("Clear");
 	JButton goToKeyboardButton = new JButton("Go to Keyboard");
 	JButton playButton = new JButton("Play");
 	JButton pauseButton = new JButton("Pause");
-	JSlider pitchSlider;//TODO make these sliders
-	JSlider volumeSlider;//TODO make these sliders
+	
 	//handles all the audio
 	ProcessingAudio audioPlayer = new ProcessingAudio();
 	// set up title text at the top of the screen
@@ -90,6 +63,7 @@ public class Attempt3 extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("AV: Instrument Mode");
+		
 		//Button stuff
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -97,11 +71,46 @@ public class Attempt3 extends JFrame{
 				}
 		});
 		
-		saveButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				saveFile();
-				}
-		});
+		
+		// sliders baybeeeee
+		// first slider: Drawing tool size adjuster 
+		final int SIZE_MIN = 1;
+		final int SIZE_MAX = 100;
+		
+		JSlider drawSize = new JSlider(JSlider.HORIZONTAL,
+	           SIZE_MIN, SIZE_MAX, 50);
+		drawSize.addChangeListener(this);
+		
+		drawSize.setMajorTickSpacing(24);
+		drawSize.setMinorTickSpacing(14);
+		drawSize.setPaintTicks(true);
+		drawSize.setPaintLabels(true);
+		
+		// second slider: pitch adjuster
+		final int PITCH_MIN = 1;
+		final int PITCH_MAX = 100;
+		
+		JSlider pitchSlider = new JSlider(JSlider.HORIZONTAL,
+	           PITCH_MIN, PITCH_MAX, 50);
+		pitchSlider.addChangeListener(this);
+		
+		pitchSlider.setMajorTickSpacing(24);
+		pitchSlider.setMinorTickSpacing(14);
+		pitchSlider.setPaintTicks(true);
+		pitchSlider.setPaintLabels(true);
+		
+		// third slider: volume adjuster
+		final int VOL_MIN = 1;
+		final int VOL_MAX = 100;
+		
+		JSlider volumeSlider = new JSlider(JSlider.HORIZONTAL,
+	           VOL_MIN, VOL_MAX, 50);
+		volumeSlider.addChangeListener(this);
+		
+		volumeSlider.setMajorTickSpacing(24);
+		volumeSlider.setMinorTickSpacing(14);
+		volumeSlider.setPaintTicks(true);
+		volumeSlider.setPaintLabels(true);
 		
 		/** 
 		 * Create three body panels: Main back panel, top panel for labels, mid label for 
@@ -178,21 +187,16 @@ public class Attempt3 extends JFrame{
 		 * Section includes: Creating spacing between the right-hand top buttons
 		 */
 		
-		
-		
-		
+		// assign text to the right hand buttons
 		LTButtons.add(playButton);
 		LTButtons.add(Box.createHorizontalStrut(4));
 		
-		//TODO removed temporarily for friday's in class test
-		//TButtons.add(pauseButton);
+		LTButtons.add(pauseButton);
 		LTButtons.add(Box.createHorizontalStrut(4));
 		
 		LTButtons.add(Box.createHorizontalGlue());		
 		LTButtons.add(Box.createHorizontalStrut(4));
-		//LTButtons.add(goToKeyboardButton);
-		
-		
+		LTButtons.add(goToKeyboardButton);
 		
 		/** Bottom panel label bar  
 		 * Section includes: Adding drawing tools, adjuster tools, and instrument select labels to the purple mid-bar
@@ -250,7 +254,7 @@ public class Attempt3 extends JFrame{
 		
 		//add color chooser to bottom panel 
 		ColorChooser cc = new ColorChooser();
-		bottomLeft.add(cc);
+		bottomLeft.add(cc, BorderLayout.CENTER);
 		
 		/** TODO: Adjuster buttons (TEMPORARY PLACEMENT IN THE WRONG SECTION, UNTIL I'VE FIGURED OUT HOW TO ADD THEM TO THE 
 		 * DRAWING TOOLS BOX THAT ALREADY CONTAINS THE COLOR CHOOSER) 
@@ -260,13 +264,14 @@ public class Attempt3 extends JFrame{
 		bottomCenter.add(squareToggle);
 		JButton lineToggle = new JButton("Line"); 
 		bottomCenter.add(lineToggle);
+		bottomCenter.add(drawSize);
 		
 		/** Processing display 
 		 * Section includes: Adding processing display from VisualStuff to the center panel for use
 		 */
 		
 		//add processing display
-		
+		//centerPanel = VisualStuff.getDrawing(400, 200);
 		JPanel display = VisualStuff.getDrawing(200, 200);
 		centerPanel.add(display);
 		
@@ -275,14 +280,12 @@ public class Attempt3 extends JFrame{
 		PApplet.runSketch(args, audioPlayer);
 		
 		playButton.addChangeListener(new ChangeListener() {
-			
 			@Override
 		    public void stateChanged(ChangeEvent e) { 
-				
-				
 				JButton source= (JButton)e.getSource();
 				if (source.getModel().isPressed()){
-		    	float[] params = audioPlayer.makeParams(VisualStuff.img);//sneaky public member access, robably not great. 
+			//gets parameters from existing image; all in the range 0 to 1
+		    	float[] params = audioPlayer.makeParams(VisualStuff.img);//sneaky public member access, probably not great. 
 		    	String wavetype;
 		    	if  (params[3] < 1.0/5){
 		    		wavetype = "sine";
@@ -295,29 +298,27 @@ public class Attempt3 extends JFrame{
 		    	}else{
 		    		wavetype = "saw";
 		    	}
-		    	//jeez idk man
+		    	//frequency based off of brightness, rounded to the nearest quarter step, in the range A2 - A4 (i think)
 		    	float freq = 220f *(float) Math.pow(2f, ((int)(params[5]*12 +params[6]*24 ))/24);
+		    	//envelope (probably needs some work)
 		    	float [] env= new float[]{
 		    		params[0],
 		    		params[6]/4,
-		    		params[2]*3,
+		    		params[2]*10,
 		    		params[1],
 		    	};
-		    	//put the values in the things.
+		    	//makes a sound with the parameters.
 		    	ProcessingAudio.sounds ss = audioPlayer.createsounds(wavetype, (int)freq, 1);
-		    	audioPlayer.mapkey('a', ss, env);
-		    	
-		    	
-		    	
+		    	//map with the envelope
+		    	audioPlayer.mapkey(' ', ss, env);
+		    			    	
+		    	//simulate keypress
 		    	audioPlayer.KeyPressed=true;
-		    	audioPlayer.Key = 'a' ;
+		    	audioPlayer.Key = ' ' ;
 				} else{
 					audioPlayer.KeyPressed=false;
 				}
-		    	
 			}
-		    
-			
 		});
 		
 		
@@ -335,29 +336,32 @@ public class Attempt3 extends JFrame{
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
 		mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+		//bottomLeft.setPreferredSize(new Dimension(300, 250));
+		//bottomCenter.setPreferredSize(new Dimension(300, 250));
+		//bottomRight.setPreferredSize(new Dimension(300, 250));
 		this.add(mainPanel);
 		
 		//topButtons.add(topButtonsNest, BorderLayout.NORTH);
 		this.setVisible(true); 
+		this.pack();
 	}
 
 	private void clear() {
-		System.out.println("clear!");
-		clearNow = true;
+		/*for (int i=0; i<VisualStuff.WIDTH; i++) {
+			for (int j=0; j<VisualStuff.HEIGHT; j++) {
+				VisualStuff.img.setRGB(i, j, 0);
+			}
+		}*/
+		VisualStuff.isCleared = true; 
 	}
 	
-	private void saveFile(){
-		JFileChooser fileChooser = new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(".wav", "WAVE");
-		fileChooser.setFileFilter(filter);
-		if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-		  File file = fileChooser.getSelectedFile();
-		  
-		  AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
-		  audioPlayer.saveFile(file);
-		  ;
-		}
-		
+	// slider values 
+	public void stateChanged(ChangeEvent e) {
+	    JSlider drawSource = (JSlider)e.getSource();
+	    int newSize = (int)drawSource.getValue();
+	    if (!drawSource.getValueIsAdjusting()) {
+	       VisualStuff.sizeValue = newSize; 
+	    }
 	}
 	
 	public static void main(String[] args) {
