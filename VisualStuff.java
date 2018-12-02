@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import processing.awt.PSurfaceAWT;
 import processing.awt.PSurfaceAWT.SmoothCanvas;
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PSurface;
 
 public class VisualStuff extends PApplet {
@@ -42,7 +43,7 @@ public class VisualStuff extends PApplet {
 	public static final JLabel picLabel = new JLabel();
 	
 	// delete if moot 
-	public static boolean isCleared = false; 
+	public static boolean clearNow = false; 
 	
 	
 	//size and framerate
@@ -60,7 +61,21 @@ public class VisualStuff extends PApplet {
 	}
 	//same as Processing draw
 	public void draw(){
-				
+		if (loaded){
+ 			try{
+ 			PImage image = loadImage(filename);
+ 			
+ 			image(image,0,0,WIDTH * image.height/image.width,HEIGHT);
+ 			} 
+ 			catch (NullPointerException e){
+ 				System.out.println("can't use that file");
+ 			}
+ 			
+ 			
+ 			loaded = false;
+ 		}
+		
+		
 		//TODO put in processing code for nice thing here :) :) 
 		colorMode(HSB, 100);
 
@@ -96,16 +111,19 @@ public class VisualStuff extends PApplet {
 		
 		//put pixels from the image into a public array
 		img.setRGB(0, 0, WIDTH,HEIGHT, pixels, 0, WIDTH);
-		
+		/*
 		int[] pixelClear = new int[width*height];
 		for (int i=0; i<width*height; i++) {
 			pixelClear[i] = 0;
 		}
+		*/
 		
 		// clear attempt
-		if (isCleared == true) {
-			img.setRGB(0, 0, width, height, pixelClear, 0, WIDTH);
-			isCleared = false; 
+		if (clearNow == true) {
+			stroke(0);
+			fill(0, 0 ,0 );
+			rect(0,0, WIDTH, HEIGHT);
+			clearNow =false;
 		}
 		picLabel.setIcon(new ImageIcon(img));
 		
@@ -143,7 +161,13 @@ public class VisualStuff extends PApplet {
 		panel.setSize(width, height);
 		return panel;
 	}
-	//TODO mouse listener
 	
+	public static void loadimage(String Filename){
+ 		loaded = true;
+ 		filename = Filename;
+ 			
+ 		
+ 	}
+		
 
 }

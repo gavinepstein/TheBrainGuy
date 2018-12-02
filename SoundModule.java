@@ -195,17 +195,17 @@ public class SoundModule {
 				//basefreq+= (12*hsv[0]);
 				basefreq -= 10;
 				//overtones
-				fft[0] = 1/tau* 220f *(float) Math.pow(2f, (float)((int)basefreq)/12f);
+				fft[0] = 1/tau* 110f *(float) Math.pow(2f, (float)((int)basefreq)/12f);
 				int fi  = 0;
-				for (fi =1; fi<(int)(fft.length/2 + 1); fi++){
+				for (fi =1; fi<(int)(fft.length); fi++){
 					fft[fi] = fft[fi-1] * hsv[0];
 
 				}
-				fft[fi-1] = hsv[0]*fft[0];
+				/*fft[fi-1] = hsv[0]*fft[0];
 				for (;fi< fft.length;fi++ ){
 					fft[fi] = fft[fi-1] /hsv[0];
 					
-				}
+				}*/
 				
 				//	if(hsv[2] > 0)System.out.printf("%f, %f, %f\n",fft[0], hsv[1], hsv[2]);
 				//amplitude
@@ -220,7 +220,7 @@ public class SoundModule {
 							
 							
 							//LFO
-							newsamples[i] = LPFalpha*amp*hsv[1]*sin(fft[j] *i)*rand.nextFloat()+ (1-LPFalpha)*newsamples[i-1]  ;// *rand.nextFloat();
+							newsamples[i] = LPFalpha*amp*hsv[1]*sin(fft[j] *i)+ (1-LPFalpha)*newsamples[i-1]  ;// *rand.nextFloat();
 
 
 						}
