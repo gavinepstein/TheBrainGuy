@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.CompoundBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -315,7 +316,7 @@ public class Attempt4 extends JFrame implements ChangeListener{
 		bottomCenter.add(lineToggle);
 		//sliders
 		JLabel sizeSliderLabel = new JLabel("Pen Size"); 
-		JLabel timeSliderLabel = new JLabel("Sound Length"); 
+		JLabel timeSliderLabel = new JLabel("Playback Time"); 
 		bottomCenter.add(sizeSliderLabel);
 		bottomCenter.add(drawSize);
 		bottomCenter.add(timeSliderLabel);
@@ -336,23 +337,30 @@ public class Attempt4 extends JFrame implements ChangeListener{
 
 		playButton.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-
+				
 				JButton source= (JButton)e.getSource();
-				if (source.getModel().isPressed()){
-					if (!isplaying){
-						isplaying = true;
-						playButton.setText("Analyzing");
+				if (source.getModel().isPressed() &&!isplaying){
+					Thread worker = new Thread() {
+				          public void run() {
+				            // Something that takes a long time . . . in real life,
+				            // this
+				            // might be a DB query, remote method invocation, etc.
+				            runSound();
 
-						audioPlayer.interpretImage(VisualStuff.img, timelength);
-						playButton.setText(" Playing ");
-						audioPlayer.playSound();
-						playButton.setText("   Play  ");
-						System.out.println("play called");
-						//isplaying=false;
-					}
-				} else{
-					isplaying = false;
-				}
+				            // Report the result using invokeLater().
+				            SwingUtilities.invokeLater(new Runnable() {
+					              public void run() {
+					                playButton.setText("Play");
+					                playButton.setEnabled(true);
+					              }
+							});
+				              
+				            }
+				          
+				          };
+				          worker.start();
+				
+				} 
 			}
 
 
@@ -472,4 +480,37 @@ public class Attempt4 extends JFrame implements ChangeListener{
 	public static void main(String[] args) {
 		new Attempt4();
 	}
+	
+	public  void runSound(){
+		
+		if (!isplaying){
+			isplaying = true;
+			
+			
+			SwingUtilities.invokeLater(new Runnable() {
+	              public void run() {
+	                playButton.setText("Analyzing");
+	                playButton.setEnabled(false);
+	              }
+			});
+
+			audioPlayer.interpretImage(VisualStuff.img, timelength);
+			
+			SwingUtilities.invokeLater(new Runnable() {
+	              public void run() {
+	                playButton.setText("Playing");
+	                playButton.setEnabled(false);
+	              }
+			});
+			
+			audioPlayer.playSound();
+			playButton.setText("Play");
+			
+			//isplaying=false;
+		}
+		
+		
+	}
+		
+	
 }
