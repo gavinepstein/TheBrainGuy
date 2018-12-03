@@ -98,7 +98,8 @@ public class Attempt4 extends JFrame implements ChangeListener{
 
 	public Attempt4() {
 		// set up the main window size, location, close type, title
-		this.setSize(1000, 600);
+		this.setSize(950, 600);
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("AV: Instrument Mode");
@@ -246,7 +247,7 @@ public class Attempt4 extends JFrame implements ChangeListener{
 
 		// add clear button to the top box
 		LTButtons.add(clearButton);
-		LTButtons.add(Box.createHorizontalStrut(280));
+		LTButtons.add(Box.createHorizontalStrut(200));
 
 
 		/** Create Instrument Mode  
@@ -256,7 +257,7 @@ public class Attempt4 extends JFrame implements ChangeListener{
 
 		// add screen top label "Create Instrument Mode"
 		LTButtons.add(screenTop);
-		LTButtons.add(Box.createHorizontalStrut(100));
+		LTButtons.add(Box.createHorizontalStrut(75));
 
 		/** Right-hand top buttons (play, pause, go to keyboard)
 		 * Section includes: Creating spacing between the right-hand top buttons
@@ -272,9 +273,10 @@ public class Attempt4 extends JFrame implements ChangeListener{
 		LTButtons.add(loadButton);
 		LTButtons.add(Box.createHorizontalStrut(4));
 
-		LTButtons.add(Box.createHorizontalGlue());		
+		LTButtons.add(Box.createHorizontalGlue());
 		LTButtons.add(Box.createHorizontalStrut(4));
 		LTButtons.add(exportButton);
+		
 
 
 

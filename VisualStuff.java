@@ -65,7 +65,7 @@ public class VisualStuff extends PApplet {
  			try{
  			PImage image = loadImage(filename);
  			
- 			image(image,0,0,WIDTH ,HEIGHT* image.width/WIDTH);
+ 			image(image,0,0,WIDTH * image.height/HEIGHT,HEIGHT);
  			} 
  			catch (NullPointerException e){
  				System.out.println("can't use that file");
